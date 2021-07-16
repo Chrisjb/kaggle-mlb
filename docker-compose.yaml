@@ -1,0 +1,14 @@
+version: "3"
+services: 
+  jupyter:
+    build: .
+    ports: 
+      - "10000:8888"
+    environment:
+      JUPYTER_ENABLE_LAB: 'yes'
+      GRANT_SUDO: 'yes'
+      NB_GID: '100'
+      NB_USER: 'jovyan'
+      JUPYTER_TOKEN: 'jupyter'
+    volumes: 
+      - .:/home/jovyan
