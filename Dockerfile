@@ -2,7 +2,7 @@ FROM jupyter/datascience-notebook:latest
 USER root
 
 # install R packages for data cleaning
-RUN R -e "install.packages(c('tidyverse', 'utils', 'jsonlite', 'glue','devtools','janitor'), repos = 'http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('tidyverse', 'utils', 'jsonlite', 'glue','devtools','janitor', 'feather', 'arrow'), repos = 'http://cran.us.r-project.org')"
 # install R packages for modelling
 RUN R -e "install.packages(c('xgboost', 'lightgbm', 'caret', 'tidymodels', 'keras'), repos = 'http://cran.us.r-project.org')"
 
@@ -17,6 +17,7 @@ RUN pip install --quiet --no-cache-dir xgboost && \
     fix-permissions "/home/${NB_USER}" && \
     pip install lightgbm && \
     pip install --upgrade tensorflow && \
-    pip install keras
+    pip install keras && \
+    pip install pyarrow
 
 EXPOSE 8888
