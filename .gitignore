@@ -1,9 +1,5 @@
 # kaggle download data
-raw_data/*.csv
-raw_data/mlb
-raw_data/*.feather
-
-
+raw_data/
 
 # from https://github.com/jupyter/notebook/blob/master/.gitignore
 MANIFEST
