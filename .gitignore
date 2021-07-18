@@ -1,6 +1,7 @@
 # kaggle download data
 raw_data/*.csv
 raw_data/mlb
+raw_data/*.feather
 
 
 
