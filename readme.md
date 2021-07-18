@@ -27,7 +27,9 @@ First time running will take a long time to build.
 
 Login with token 'jupyter' (can be changed in docker-compose.yaml)
 
+### Powershell script
 
+`docker_launch.ps1` will create or load the container and open the jupyter port
 
 
 
