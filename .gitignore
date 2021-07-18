@@ -1,8 +1,5 @@
 # kaggle download data
-raw_data/*.csv
-raw_data/mlb
-
-
+raw_data/
 
 # from https://github.com/jupyter/notebook/blob/master/.gitignore
 MANIFEST
@@ -63,3 +60,11 @@ geckodriver.log
 docs/source/changelog.md
 
 .jupyter_releaser_checkout
+
+# additional ignores
+.cache
+.config
+.ipython
+.jupyter
+.local
+.npm
