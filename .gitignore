@@ -1,6 +1,11 @@
 # kaggle download data
 raw_data/
 
+.vscode
+.vscode-server
+.gitconfig
+.bash_history
+
 # from https://github.com/jupyter/notebook/blob/master/.gitignore
 MANIFEST
 build
