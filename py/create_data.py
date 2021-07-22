@@ -1,31 +1,50 @@
+#https://www.kaggle.com/columbia2131/mlb-lightgbm-starter-dataset-code-en-ja?scriptVersionId=65896391&cellId=4
+
 import pandas as pd
 import pickle
 import os
+import numpy as np 
+import gc
 
-from processing_helpers import unpack_json, unpack_data
+null = np.nan
+true = True
+false = False
 
-training = pd.read_csv('raw_data/train.csv')
+print("\nRaw Training Frame:")
+train = pd.read_csv('raw_data/train.csv')
 
-# Convert training data date field to datetime type
-training['date'] = pd.to_datetime(training['date'], format="%Y%m%d")
-training = training.set_index('date').to_period('D')
-print("\nTraining dataset:")
-print(training.info())
+#process date and set as index
+train['date'] = pd.to_datetime(train['date'], format="%Y%m%d")
+train = train.set_index('date').to_period('D')
 
-json_cols = training.columns.difference(['date'])
-print("\nColumns to Transform:")
-print(json_cols)
+print(train.shape)
+print(train.head(1))
 
-# Unpack nested dataframes and store in dictionary `training_dfs`
-# set to only 1 worker to avoid warning:
-#UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
-#  warnings.warn(
-training_dfs = unpack_data(training, dfs=json_cols, n_jobs = 1) 
-print("Train DFs created:")
-print(training_dfs.keys())
+for col in train.columns:
 
-for tt in training_dfs.keys():
-    with open('raw_data/train_' + tt + '.pkl', 'wb') as out:
-        pickle.dump(training_dfs[tt], out)
-    print("\nOutput " + tt)
-    print(training_dfs[tt].shape)
+    print("\nProcessing Column:")
+    print(col)
+
+    if col == 'date': continue
+
+    _index = train[col].notnull()
+    train.loc[_index, col] = train.loc[_index, col].apply(lambda x: eval(x))
+
+    outputs = []
+    for index, date, record in train.loc[_index, ['date', col]].itertuples():
+        _df = pd.DataFrame(record)
+        _df['index'] = index
+        _df['date'] = date
+        outputs.append(_df)
+
+    outputs = pd.concat(outputs).reset_index(drop=True)
+
+    print(outputs.shape)
+    print(output.head(1))
+
+    outputs.to_csv(f'raw_data/train_{col}_train.csv', index=False)
+    outputs.to_pickle(f'raw_data/train_{col}.pkl')
+
+    del outputs
+    del train[col]
+    gc.collect()

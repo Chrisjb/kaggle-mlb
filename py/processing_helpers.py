@@ -14,6 +14,7 @@ def unpack_data(data, dfs=None, n_jobs=-1):
     for name, column in data.iteritems():
         daily_dfs = Parallel(n_jobs=n_jobs)(
             delayed(unpack_json)(item) for date, item in column.iteritems())
-        df = pd.concat(daily_dfs)
+        df = pd.concat(daily_dfs).reset_index(drop=True)
         unnested_dfs[name] = df
     return unnested_dfs
+
